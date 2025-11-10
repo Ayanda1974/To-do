@@ -3,18 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple To-Do List</title>
+    <title>ManageDay - Manage Your Day Effectively</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>My To-Do List</h1>
-        <div class="input-section">
-            <input type="text" id="taskInput" placeholder="Add a new task...">
-            <button id="addBtn">Add</button>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-calendar-check"></i> ManageDay</h2>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
-        <ul id="taskList"></ul>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-link active" data-page="dashboard">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="#" class="nav-link" data-page="set-tasks">
+                <i class="fas fa-plus-circle"></i> Set Tasks
+            </a>
+            <a href="#" class="nav-link" data-page="view-tasks">
+                <i class="fas fa-list-check"></i> View Tasks
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Navigation Bar -->
+        <header class="top-nav">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-right">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="notification-wrapper">
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge">0</span>
+                    </button>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header">
+                            <h3>Notifications</h3>
+                            <button class="mark-read" id="markAllRead">Mark all as read</button>
+                        </div>
+                        <div class="notification-content" id="notificationContent">
+                            <p class="no-notifications">No notifications</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Page -->
+        <section class="page active" id="dashboard">
+            <div class="welcome-section">
+                <h1>Welcome back, <span id="userName">User</span>!</h1>
+                <p class="welcome-subtitle">Here's what's happening with your tasks today</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card stat-todo">
+                    <div class="stat-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="todoCount">0</h3>
+                        <p>To Do</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-progress">
+                    <div class="stat-icon">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="progressCount">0</h3>
+                        <p>In Progress</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-completed">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="completedCount">0</h3>
+                        <p>Completed</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-missed">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="missedCount">0</h3>
+                        <p>Overdue</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-tasks">
+                <h2>Today's Tasks</h2>
+                <div class="tasks-container" id="dashboardTasks">
+                    <p class="no-tasks">No tasks for today</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Set Tasks Page -->
+        <section class="page" id="set-tasks">
+            <h1>Create New Task</h1>
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="taskTitle">Task Title *</label>
+                    <input type="text" id="taskTitle" placeholder="Enter task title" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription">Description</label>
+                    <textarea id="taskDescription" placeholder="Enter task description" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate">Start Date *</label>
+                        <input type="date" id="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="startTime">Start Time *</label>
+                        <input type="time" id="startTime" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="endDate">End Date *</label>
+                        <input type="date" id="endDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endTime">End Time *</label>
+                        <input type="time" id="endTime" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reminderTime">Reminder Before (minutes)</label>
+                    <select id="reminderTime">
+                        <option value="0">No reminder</option>
+                        <option value="5">5 minutes</option>
+                        <option value="15" selected>15 minutes</option>
+                        <option value="30">30 minutes</option>
+                        <option value="60">1 hour</option>
+                    </select>
+                </div>
+                <button class="btn-primary" id="createTaskBtn">
+                    <i class="fas fa-plus"></i> Create Task
+                </button>
+            </div>
+        </section>
+
+        <!-- View Tasks Page -->
+        <section class="page" id="view-tasks">
+            <div class="page-header">
+                <h1>All Tasks</h1>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="todo">To Do</button>
+                    <button class="filter-btn" data-filter="progress">In Progress</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                    <button class="filter-btn" data-filter="overdue">Overdue</button>
+                </div>
+            </div>
+            <div class="tasks-list" id="allTasksList">
+                <p class="no-tasks">No tasks available</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Task Modal -->
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTaskTitle">Task Details</h2>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Task details will be inserted here -->
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <!-- Action buttons will be inserted here -->
+            </div>
+        </div>
     </div>
+
+    <!-- First Time Setup Modal -->
+    <div class="modal active" id="setupModal">
+        <div class="modal-content setup-modal">
+            <div class="modal-header">
+                <h2>Welcome to ManageDay!</h2>
+            </div>
+            <div class="modal-body">
+                <p>Let's get started by setting up your profile.</p>
+                <div class="form-group">
+                    <label for="setupName">What's your name?</label>
+                    <input type="text" id="setupName" placeholder="Enter your name">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="setupSubmit">Get Started</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
